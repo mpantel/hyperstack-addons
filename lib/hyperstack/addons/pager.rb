@@ -1,0 +1,13 @@
+require 'hyperstack/addons/components/input'
+require 'hyperstack/addons/components/modal'
+require 'hyperstack/addons/components/loading'
+require 'hyperstack/addons/components/font_awesome'
+require 'hyperstack/addons/components/messenger'
+require 'hyperstack/addons/store/messages'
+
+require 'hyperstack/addons/components/at'
+require 'hyperstack/addons/components/pager_filter'
+require 'hyperstack/addons/components/pager_filter_preference'
+require 'hyperstack/addons/components/pager_navigation'
+require 'hyperstack/addons/components/pager_row'
+require 'hyperstack/addons/components/pager'

@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "@rails/actioncable": "^6.0.0",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "@popperjs/core": "^2.10.1",
+    "@rails/webpacker": "5.4.3",
+    "bootstrap": "^5",
+    "create-react-class": "^15.7.0",
+    "jquery": "^3.4.1",
+    "react": "16",
+    "react-dom": "16",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "react_ujs": "^2.5.0",
+    "turbolinks": "^5.2.0",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^3.3.12",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "react-datepicker": "^4",
+    "react-trix": "^0.9.0",
+    "suneditor": "~2.43.14",
+    "suneditor-react": "^3.4.0",
+    "chart.js": "^3.6.0",
+    "chartkick": "^4.1.0"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3"
+  }
+}

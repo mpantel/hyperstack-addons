@@ -1,0 +1,104 @@
+version: '3.5'
+
+volumes:
+  postgresql_data:
+    name: postgresql_data
+  local_gems:
+    name: local_gems
+  node_modules:
+    name: node_modules
+
+networks:
+  default:
+    driver: bridge
+#    name: hyperstack-addons_network
+    name: development_network
+    ipam:
+      driver: default
+      config:
+        - subnet: ${CONTAINER_SUBNET}
+
+
+services:
+
+  redis:
+    image: "redis:alpine"
+    container_name: "redis"
+    restart: always
+    ports:
+      - "6379:6379"
+
+  postgresql:
+    image: ${PRIVATE_REGISTRY}/postgres
+    restart: always
+    container_name: "postgresql"
+    ports:
+      - "127.0.0.1:5432:5432"
+      #- "0.0.0.0:5432:5432"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: "${GEM_SERVER_KEY}"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    labels:
+      - traefik.enable=false
+    networks:
+      default:
+
+  hyperstack-addons:
+    image: ${PRIVATE_REGISTRY}/base20:ruby276
+    #domainname: ${BASE_TEST_DOMAIN}
+    #hostname: w3
+    container_name: "hyperstack-addons"
+
+    entrypoint: "/bin/bash -c 'redis-server /etc/redis/redis.conf && bundle install ${LOCAL_GEMS} && bundle exec rails assets:precompile && bundle exec rake db:migrate && bundle exec foreman start -f Procfile.dev'"
+
+    #entrypoint: "/bin/bash -c 'redis-server /etc/redis/redis.conf && bundle install ${LOCAL_GEMS} && bundle exec rake db:migrate && bundle exec rails s -p 80 -b 0.0.0.0'"
+    #entrypoint: "/bin/bash -c 'bundle exec rails s -p 80 -b 0.0.0.0'"
+    #entrypoint: "tail -F /etc/hosts"
+    expose:
+      - 80
+      - 25222
+      - 3035 # dev_server, webpacker
+    depends_on:
+      - postgresql
+      #- redis
+    #env_file: "docker.env"
+    stdin_open: true
+    tty: true
+    working_dir: /root/hyperstack-addons
+    environment:
+      GEM_SERVER_KEY: "${GEM_SERVER_KEY}"
+      BUNDLE_PATH: "/root/hyperstack-addons/local_gems"
+      DRIVER: "travis"
+
+    tmpfs:
+      - /tmp
+      - /root/hyperstack-addons/tmp
+
+    volumes:
+      # use with docker-compose -V or  --renew-anon-volumes   Recreate anonymous volumes instead of retrieving data from the previous containers.
+      - ${MOUNT_PATH:-..}/hyperstack-addons:/root/hyperstack-addons
+      - ${MOUNT_PATH:-..}/hyperstack:/root/hyperstack
+      #- ${MOUNT_PATH:-..}/hyper-spec:/root/hyper-spec
+
+      # skip some folders from mapping
+      - /root/hyperstack-addons/tmp/pids/
+      - /root/hyperstack-addons/tmp/cache/
+      - /root/hyperstack-addons/tmp/sockets/
+      - /root/hyperstack-addons/public/assets/
+      - /root/hyperstack-addons/public/packs/
+      - /root/hyperstack-addons/public/packs-test/
+      - /root/hyperstack-addons/.bundle/
+
+      # mount volumes
+      - local_gems:/root/hyperstack-addons/local_gems
+      # - rails_cache:/root/invoicing/tmp/cache
+      - node_modules:/root/hyperstack-addons/node_modules
+      #- packs:/root/invoicing/public/packs
+      #- packs-test:/root/invoicing/public/packs-test
+
+    networks:
+      default:

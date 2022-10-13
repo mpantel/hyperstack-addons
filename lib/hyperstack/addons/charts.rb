@@ -1,0 +1,6 @@
+require 'hyperstack/addons/components/charts/area'
+require 'hyperstack/addons/components/charts/bar'
+require 'hyperstack/addons/components/charts/column'
+require 'hyperstack/addons/components/charts/line'
+require 'hyperstack/addons/components/charts/pie'
+require 'hyperstack/addons/components/charts/scatter'

@@ -1,0 +1,43 @@
+.trix-button--icon-attach {display:none;}
+
+trix-editor.input-sm {background-color: #FFFFFF}
+
+.sun-editor {
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
+  font-family: unset;
+  border: 1px solid #dadada;
+  background-color: #fff;
+  color: #000;
+  user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.sun-editor-editable {
+  font-family: unset;
+  font-size: inherit;
+  color: #333;
+  background-color: #fff;
+  line-height: 1.5;
+  word-break: normal;
+  word-wrap: break-word;
+  padding: 16px;
+  margin: 0;
+}
+
+.sun-editor .se-toolbar {
+  display: block;
+  position: relative;
+  height: auto;
+  width: 100%;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  background-color: #fafafa;
+  outline: 1px solid #dadada;
+}
